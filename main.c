@@ -1,7 +1,7 @@
 #include "functions.h"
 
 int main( void ){
-    inicia_jogo();
+    menuPrincipal();
 
     return 0;
 }

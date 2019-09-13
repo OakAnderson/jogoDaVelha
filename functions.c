@@ -1,12 +1,47 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <time.h>
 #include "functions.h"
 
 typedef struct tabuleiro {
     int matriz[3][3];
 } Tabuleiro;
 
+
+int randPcTurn( Tabuleiro* tab ){
+    int num, i, j;
+
+    num = rand() % 10;
+    if( num == 0 ){
+        return randPcTurn( tab );
+    }
+
+    tab_acessa( num, &i, &j );
+    if( tab->matriz[i][j] != 0 ){
+        return randPcTurn( tab );
+    }
+
+    return num;
+}
+
+/*
+int hardPcTurn( Tabuleiro* tab, int last ){
+    int i, j;
+    
+    if( last == 0 ){
+        return randPcTurn( tab );
+    }
+
+    tab_acessa( last, &i, &j );
+    if( i == 0 ){
+        if( j == 0 ){
+            
+        }
+    }
+
+}
+*/
 
 Tabuleiro tab_novo( void ){
     Tabuleiro novo;
@@ -57,38 +92,38 @@ void tab_mostra( Tabuleiro* tab, int jogador ){
 }
 
 
-void tab_acessa( int num, int *x, int *y ){
+void tab_acessa( int num, int *i, int *j ){
     num--;
 
-    *x = 2 - num/3;
-    *y = (num % 3);
+    *i = 2 - num/3;
+    *j = (num % 3);
 }
 
 
 void jogaX( Tabuleiro* tab, int num ){
-    int x, y;
+    int i, j;
 
-    tab_acessa( num, &x, &y );
+    tab_acessa( num, &i, &j );
     
-    tab->matriz[x][y] = 1;
+    tab->matriz[i][j] = 1;
 }
 
 
 void jogaO( Tabuleiro* tab, int num ){
-    int x, y;
+    int i, j;
     
-    tab_acessa(num, &x, &y);
+    tab_acessa(num, &i, &j);
 
-    tab->matriz[x][y] = 2;
+    tab->matriz[i][j] = 2;
 }
 
 
 int val_campo( Tabuleiro* tab, int num ){
-    int x, y;
+    int i, j;
 
-    tab_acessa( num, &x, &y );
+    tab_acessa( num, &i, &j );
 
-    if( tab->matriz[x][y] != 0 ){
+    if( tab->matriz[i][j] != 0 ){
         return 0;
     }
 
@@ -165,10 +200,11 @@ int jogada( Tabuleiro* tab ){
 }
 
 
-void inicia_jogo( void ){
+void inicia_jogo( int n ){
     int num, vez, i, win;
     Tabuleiro tab;
 
+    srand(time(NULL));
     tab = tab_novo();
 
     for( i = 0; i < 9; i++ ){
@@ -179,7 +215,10 @@ void inicia_jogo( void ){
             jogaX( &tab, num );
         } else {
             tab_mostra( &tab, 2 );
-            num = jogada( &tab );
+            if( n == 2 )
+                num = randPcTurn( &tab );
+            else
+                num = jogada( &tab );
             jogaO( &tab, num );
         }
 
@@ -197,7 +236,28 @@ void inicia_jogo( void ){
         }
     }
 
-    if( i == 8 && !win ){
+    if( i == 9 && !win ){
+        tab_mostra( &tab, 0 );
         printf("\nEmpate!\n");
     }
+}
+
+
+void menuPrincipal( void ){
+    char escolha;
+
+    system("clear");
+
+    printf("1 - 2 jogadores\n2 - jogador vs computador\n\n");
+    printf("Escolha: ");
+    scanf(" %c", &escolha);
+    while( escolha != '1' && escolha != '2' ){
+        system("clear");
+        printf("1 - 2 jogadores\n2 - jogador vs computador\n\n");
+        printf("Insira apenas 1 ou 2!\n");
+        printf("Escolha: ");
+        scanf(" %c", &escolha);
+    }
+
+    inicia_jogo(escolha - '0');
 }

@@ -57,4 +57,10 @@ int jogada( Tabuleiro* );
 /* Função inicia jogo
 ** Operação que faz o loop da rotina do jogo
 */
-void inicia_jogo( void );
+void inicia_jogo( int );
+
+
+/* Função menu principal
+** Operação que incia o programa pelo menu principal
+*/
+void menuPrincipal( void );
