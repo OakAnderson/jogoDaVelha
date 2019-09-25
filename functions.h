@@ -3,6 +3,12 @@
 typedef struct tabuleiro Tabuleiro;
 
 
+/* Função salva tabuleiro
+** Operação que salva em arquivo binário uma partida
+*/
+void tab_salva( Tabuleiro* );
+
+
 /* Função tabuleiro novo
 ** Operação que limpa o tabuleiro
 */
@@ -26,13 +32,13 @@ void tab_acessa( int, int*, int* );
 /* Função jogador X
 ** Operação que recebe uma posição do tabuleiro e marca com X
 */
-void jogaX( Tabuleiro*, int );
+void jogaX( Tabuleiro*, int, int );
 
 
 /* Função jogador O
 ** Operação que recebe uma posição do tabuleiro e marca com O
 */
-void jogaX( Tabuleiro*, int );
+void jogaO( Tabuleiro*, int, int );
 
 
 /* Função valida campo

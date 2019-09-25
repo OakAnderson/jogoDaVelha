@@ -1,9 +1,12 @@
 from os import system as sys
 
 sys('''
+gcc -c IA.c
 gcc -c functions.c
 gcc -c main.c
-gcc -o executavel main.o functions.o
+gcc -o exe main.o functions.o IA.o
 rm *.o
-./executavel
+./exe
 ''')
+
+
